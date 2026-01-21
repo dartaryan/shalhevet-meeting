@@ -1,0 +1,686 @@
+/* ============================================
+   SHALHEVET PRESENTATION - STYLES V3
+   Timeline, Scroll-Snap, Real Parallax
+   ============================================ */
+
+/* CSS Variables */
+:root {
+    --black: #050505;
+    --black-light: #0a0a0a;
+    --black-lighter: #111111;
+    --white: #ffffff;
+    --gray: #666666;
+    --gray-light: #999999;
+    
+    /* Neon Colors */
+    --turquoise: #00fff0;
+    --pink: #ff00aa;
+    --yellow: #ffe600;
+    --orange: #ff6600;
+    --green: #00ff66;
+    --purple: #aa00ff;
+    
+    /* Active color (set by JS) */
+    --active-color: var(--turquoise);
+    
+    /* Typography */
+    --font-main: 'Heebo', sans-serif;
+}
+
+/* Reset */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--black);
+    color: var(--white);
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+/* ============================================
+   SCROLL CONTAINER - Snap Here
+   ============================================ */
+
+.scroll-container {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+}
+
+/* ============================================
+   PROGRESS BAR
+   ============================================ */
+
+.progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--active-color);
+    transition: width 0.1s ease-out, background-color 0.5s ease;
+    box-shadow: 0 0 20px var(--active-color);
+}
+
+/* ============================================
+   TIMELINE LINE - Continuous
+   ============================================ */
+
+.timeline-line {
+    position: fixed;
+    left: 60px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 100;
+}
+
+.timeline-line-inner {
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(
+        to bottom,
+        var(--turquoise) 0%,
+        var(--turquoise) 12.5%,
+        var(--pink) 12.5%,
+        var(--pink) 25%,
+        var(--yellow) 25%,
+        var(--yellow) 37.5%,
+        var(--purple) 37.5%,
+        var(--purple) 50%,
+        var(--green) 50%,
+        var(--green) 62.5%,
+        var(--orange) 62.5%,
+        var(--orange) 75%,
+        var(--turquoise) 75%,
+        var(--turquoise) 87.5%,
+        var(--pink) 87.5%,
+        var(--pink) 100%
+    );
+    box-shadow: 0 0 20px var(--active-color);
+    transition: height 0.1s ease-out;
+}
+
+/* Timeline Marker on each section */
+.timeline-marker {
+    position: absolute;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 101;
+}
+
+.timeline-dot {
+    width: 24px;
+    height: 24px;
+    background: var(--black);
+    border: 4px solid var(--active-color);
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--active-color),
+                0 0 40px var(--active-color);
+    animation: dotPulse 2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.timeline-date-big {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--active-color);
+    text-shadow: 0 0 30px var(--active-color);
+    writing-mode: horizontal-tb;
+    white-space: nowrap;
+}
+
+/* Slide Counter */
+.slide-counter {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--active-color);
+    z-index: 1000;
+    opacity: 0.7;
+    transition: color 0.5s ease;
+}
+
+/* ============================================
+   SECTIONS
+   ============================================ */
+
+.section {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+/* ============================================
+   PARALLAX LAYERS
+   ============================================ */
+
+.parallax-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    will-change: transform;
+}
+
+.layer-back {
+    z-index: 1;
+}
+
+.layer-mid {
+    z-index: 2;
+}
+
+.layer-front {
+    z-index: 4;
+}
+
+.content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    max-width: 900px;
+    padding: 0 20px;
+    padding-right: 150px; /* Space for timeline */
+}
+
+/* ============================================
+   FLOATING SHAPES
+   ============================================ */
+
+.floating-shape {
+    position: absolute;
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+.floating-shape svg {
+    stroke: var(--active-color);
+    filter: drop-shadow(0 0 20px var(--active-color));
+}
+
+/* Positions and sizes */
+.shape-1 { top: 12%; right: 15%; }
+.shape-1 svg { width: 70px; height: 70px; }
+
+.shape-2 { top: 22%; left: 12%; }
+.shape-2 svg { width: 55px; height: 55px; }
+
+.shape-3 { bottom: 25%; right: 10%; }
+.shape-3 svg { width: 80px; height: 80px; }
+
+.shape-4 { bottom: 18%; left: 18%; }
+.shape-4 svg { width: 60px; height: 60px; }
+
+.shape-5 { top: 55%; right: 8%; }
+.shape-5 svg { width: 50px; height: 50px; }
+
+/* Animation when section is active */
+.section.active .floating-shape {
+    animation: shapeIn 0.8s ease-out forwards;
+}
+
+.section.active .shape-1 { animation-delay: 0.1s; }
+.section.active .shape-2 { animation-delay: 0.2s; }
+.section.active .shape-3 { animation-delay: 0.3s; }
+.section.active .shape-4 { animation-delay: 0.4s; }
+.section.active .shape-5 { animation-delay: 0.5s; }
+
+@keyframes shapeIn {
+    0% {
+        opacity: 0;
+        transform: translate(var(--from-x, 100px), var(--from-y, -50px)) rotate(-30deg) scale(0.3);
+    }
+    100% {
+        opacity: 0.7;
+        transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+}
+
+/* Different entry directions */
+.shape-1 { --from-x: 150px; --from-y: -80px; }
+.shape-2 { --from-x: -120px; --from-y: -60px; }
+.shape-3 { --from-x: 100px; --from-y: 80px; }
+.shape-4 { --from-x: -80px; --from-y: 100px; }
+.shape-5 { --from-x: 80px; --from-y: 60px; }
+
+/* Continuous floating after entry */
+.section.active .floating-shape {
+    animation: shapeIn 0.8s ease-out forwards,
+               floatContinuous 6s ease-in-out infinite 0.8s;
+}
+
+@keyframes floatContinuous {
+    0%, 100% { 
+        transform: translateY(0) translateX(0) rotate(0deg); 
+    }
+    25% { 
+        transform: translateY(-25px) translateX(15px) rotate(8deg); 
+    }
+    50% { 
+        transform: translateY(-40px) translateX(-10px) rotate(-5deg); 
+    }
+    75% { 
+        transform: translateY(-15px) translateX(20px) rotate(5deg); 
+    }
+}
+
+/* Different float patterns per shape */
+.section.active .shape-2 {
+    animation: shapeIn 0.8s ease-out forwards,
+               floatAlt1 7s ease-in-out infinite 0.9s;
+}
+
+.section.active .shape-4 {
+    animation: shapeIn 0.8s ease-out forwards,
+               floatAlt2 8s ease-in-out infinite 1s;
+}
+
+@keyframes floatAlt1 {
+    0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+    33% { transform: translateY(-30px) translateX(-25px) rotate(-10deg); }
+    66% { transform: translateY(-50px) translateX(15px) rotate(7deg); }
+}
+
+@keyframes floatAlt2 {
+    0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+    50% { transform: translateY(-35px) translateX(30px) rotate(12deg); }
+}
+
+/* Exit animation */
+.section.leaving .floating-shape {
+    animation: shapeOut 0.4s ease-in forwards !important;
+}
+
+@keyframes shapeOut {
+    to {
+        opacity: 0;
+        transform: translate(var(--from-x, 100px), var(--from-y, -50px)) rotate(30deg) scale(0.3);
+    }
+}
+
+/* ============================================
+   COLOR THEMES PER SECTION
+   ============================================ */
+
+.section[data-color="turquoise"] { --active-color: var(--turquoise); }
+.section[data-color="pink"] { --active-color: var(--pink); }
+.section[data-color="yellow"] { --active-color: var(--yellow); }
+.section[data-color="orange"] { --active-color: var(--orange); }
+.section[data-color="green"] { --active-color: var(--green); }
+.section[data-color="purple"] { --active-color: var(--purple); }
+
+/* Background gradients */
+.section[data-color="turquoise"] .layer-back {
+    background: radial-gradient(ellipse at 30% 40%, rgba(0, 255, 240, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 70%, rgba(0, 255, 240, 0.06) 0%, transparent 40%),
+                var(--black);
+}
+
+.section[data-color="pink"] .layer-back {
+    background: radial-gradient(ellipse at 60% 30%, rgba(255, 0, 170, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 20% 80%, rgba(255, 0, 170, 0.07) 0%, transparent 40%),
+                var(--black);
+}
+
+.section[data-color="yellow"] .layer-back {
+    background: radial-gradient(ellipse at 40% 50%, rgba(255, 230, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(255, 230, 0, 0.06) 0%, transparent 40%),
+                var(--black);
+}
+
+.section[data-color="orange"] .layer-back {
+    background: radial-gradient(ellipse at 50% 40%, rgba(255, 102, 0, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 10% 70%, rgba(255, 102, 0, 0.07) 0%, transparent 40%),
+                var(--black);
+}
+
+.section[data-color="green"] .layer-back {
+    background: radial-gradient(ellipse at 70% 60%, rgba(0, 255, 102, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 20% 30%, rgba(0, 255, 102, 0.06) 0%, transparent 40%),
+                var(--black);
+}
+
+.section[data-color="purple"] .layer-back {
+    background: radial-gradient(ellipse at 30% 30%, rgba(170, 0, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(170, 0, 255, 0.08) 0%, transparent 40%),
+                var(--black);
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+.title-block {
+    opacity: 0;
+    transform: translateY(60px);
+}
+
+.section.active .title-block {
+    animation: titleReveal 1s ease-out 0.2s forwards;
+}
+
+@keyframes titleReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.date-tag {
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--active-color);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+}
+
+.main-title {
+    font-size: clamp(4rem, 14vw, 9rem);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 0.95;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 80px var(--active-color),
+                 0 0 150px var(--active-color);
+}
+
+.subtitle {
+    font-size: clamp(1.3rem, 3.5vw, 2rem);
+    font-weight: 300;
+    color: var(--gray-light);
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+/* ============================================
+   FIRE ICON
+   ============================================ */
+
+.fire-icon {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 2rem;
+}
+
+.fire-icon svg {
+    width: 120px;
+    height: 120px;
+    stroke: var(--active-color);
+    fill: none;
+    animation: fireFlicker 0.4s ease-in-out infinite alternate;
+}
+
+.fire-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, var(--active-color) 0%, transparent 70%);
+    opacity: 0.5;
+    filter: blur(40px);
+    animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes fireFlicker {
+    0% { transform: scale(1) rotate(-3deg); }
+    100% { transform: scale(1.08) rotate(3deg); }
+}
+
+@keyframes glowPulse {
+    0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.3); }
+}
+
+/* ============================================
+   SCROLL HINT
+   ============================================ */
+
+.scroll-hint {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: bounceDown 2s ease-in-out infinite;
+    z-index: 10;
+}
+
+.scroll-hint svg {
+    width: 50px;
+    height: 50px;
+    stroke: var(--active-color);
+    opacity: 0.7;
+}
+
+@keyframes bounceDown {
+    0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.7; }
+    50% { transform: translateX(-50%) translateY(20px); opacity: 1; }
+}
+
+/* ============================================
+   CHAT BUBBLES
+   ============================================ */
+
+.chat-conversation {
+    margin-top: 2.5rem;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.chat-bubble {
+    padding: 1.2rem 1.8rem;
+    margin-bottom: 1.2rem;
+    border-radius: 24px;
+    position: relative;
+    opacity: 0;
+}
+
+.section.active .chat-bubble {
+    animation: chatIn 0.6s ease-out forwards;
+}
+
+.section.active .chat-bubble:nth-child(1) { animation-delay: 0.6s; }
+.section.active .chat-bubble:nth-child(2) { animation-delay: 1.1s; }
+.section.active .chat-bubble:nth-child(3) { animation-delay: 1.6s; }
+.section.active .chat-bubble:nth-child(4) { animation-delay: 2.1s; }
+
+@keyframes chatIn {
+    from { opacity: 0; transform: translateY(30px) scale(0.85); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.chat-bubble.other {
+    background: var(--black-lighter);
+    border: 2px solid rgba(255, 102, 0, 0.4);
+    margin-left: 25%;
+    border-radius: 24px 24px 8px 24px;
+}
+
+.chat-bubble.me {
+    background: rgba(255, 102, 0, 0.2);
+    margin-right: 25%;
+    border-radius: 24px 24px 24px 8px;
+}
+
+.chat-bubble.action {
+    background: transparent;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin: 2.5rem 0;
+}
+
+.chat-bubble.action svg {
+    width: 60px;
+    height: 60px;
+    stroke: var(--active-color);
+    filter: drop-shadow(0 0 30px var(--active-color));
+}
+
+.chat-bubble.action p {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--active-color);
+    text-shadow: 0 0 40px var(--active-color);
+}
+
+.chat-name {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--active-color);
+    margin-bottom: 0.4rem;
+}
+
+.chat-bubble p {
+    margin: 0;
+    color: var(--white);
+    font-size: 1.15rem;
+}
+
+/* ============================================
+   GIFT NOTE
+   ============================================ */
+
+.gift-note {
+    margin-top: 3rem;
+    padding: 1.8rem 2.5rem;
+    background: rgba(255, 0, 170, 0.12);
+    border-radius: 16px;
+    border: 2px solid rgba(255, 0, 170, 0.4);
+    display: inline-block;
+}
+
+.gift-note p {
+    color: var(--white);
+    font-size: 1.4rem;
+    margin: 0;
+}
+
+.signature {
+    margin-top: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.signature span:first-child {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--white);
+}
+
+.signature .date {
+    font-size: 1.1rem;
+    color: var(--gray);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 900px) {
+    .timeline-line {
+        left: 30px;
+    }
+    
+    .timeline-marker {
+        left: 15px;
+    }
+    
+    .timeline-date-big {
+        font-size: 1.8rem;
+    }
+    
+    .content {
+        padding-right: 100px;
+    }
+}
+
+@media (max-width: 600px) {
+    .timeline-line {
+        left: 15px;
+        width: 3px;
+    }
+    
+    .timeline-marker {
+        left: 5px;
+        gap: 10px;
+    }
+    
+    .timeline-dot {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .timeline-date-big {
+        font-size: 1.2rem;
+    }
+    
+    .content {
+        padding-right: 60px;
+        padding-left: 15px;
+    }
+    
+    .main-title {
+        font-size: clamp(2.5rem, 12vw, 5rem);
+    }
+    
+    .floating-shape svg {
+        width: 40px !important;
+        height: 40px !important;
+    }
+    
+    .chat-bubble.other { margin-left: 15%; }
+    .chat-bubble.me { margin-right: 15%; }
+    
+    .slide-counter {
+        bottom: 15px;
+        left: auto;
+        right: 15px;
+    }
+}
