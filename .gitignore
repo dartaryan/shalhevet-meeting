@@ -1,0 +1,65 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# IDE and editor files
+.vscode/
+.cursor/
+.claude/
+.config/
+.ado_orgs.cache
+
+# OS files
+desktop.ini
+Thumbs.db
+.DS_Store
+
+# User data and cache
+*.cache
+*.log
+
+# Personal config files
+.gitconfig
+.npmrc
+.viminfo
+.lesshst
+
+# Windows system files
+NTUSER.DAT*
+ntuser.dat*
+*.regtrans-ms
+*.LOG*
+
+# OneDrive
+OneDrive*/
+OneDrive - */
+
+# System directories
+AppData/
+Contacts/
+Desktop/
+Documents/
+Downloads/
+Favorites/
+Links/
+Music/
+Pictures/
+Saved Games/
+Searches/
+Videos/
+Application Data/
+Cookies/
+Local Settings/
+My Documents/
+NetHood/
+PrintHood/
+Recent/
+SendTo/
+Start Menu/
+Templates/
+mcafee dlp quarantined files/
+
+# Build outputs
+_bmad-output/
+.nx/
+.storybook/
